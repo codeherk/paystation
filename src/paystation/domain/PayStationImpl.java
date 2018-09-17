@@ -1,5 +1,8 @@
 package paystation.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Implementation of the pay station.
  *
@@ -21,8 +24,9 @@ package paystation.domain;
  */
 public class PayStationImpl implements PayStation {
     
-    private int insertedSoFar;
+    private int insertedSoFar; 
     private int timeBought;
+    private Map<Integer,Integer> coins; //map of coins to be returned IF user cancels
 
     @Override
     public void addPayment(int coinValue)
@@ -51,11 +55,27 @@ public class PayStationImpl implements PayStation {
     }
 
     @Override
-    public void cancel() {
+    public Map<Integer, Integer> cancel() {
+        //create map object
+        Map<Integer,Integer> coins = new HashMap<Integer,Integer>(); // Map<> is an interface, cannot be Instantiated
+        
+        /*while(insertedSoFar > 25){
+            insert
+        }*/
         reset();
+        return coins;
     }
     
     private void reset() {
         timeBought = insertedSoFar = 0;
+    }
+    public int empty(){
+        //returns total of money collected by the paystation since the last call and empties it
+        int total = insertedSoFar; //stored money collect to a variable before emptying it
+        reset(); 
+        
+        //reset Map
+        coins.clear(); //resets map
+        return total;
     }
 }

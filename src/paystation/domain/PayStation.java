@@ -58,7 +58,7 @@ public interface PayStation {
     * The Map will be cleared after a cancel or buy. 
     */
     
-    Map<Integer, Integer> cancel(); 
+    public Map<Integer, Integer> cancel(); 
     
     /**
      * Add a method int empty() that returns the total amount of money collected by the paystation since the last call and empties it, 
