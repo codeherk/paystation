@@ -60,16 +60,15 @@ public class PayStationImpl implements PayStation {
         //create map object
         
         Map<Integer,Integer> inserted = new HashMap<Integer,Integer>(coins); // Map<> is an interface, cannot be Instantiated
-        
-        /*while(insertedSoFar > 25){
-            insert
-        }*/
         reset();
         return inserted;
     }
     
     private void reset() {
-        timeBought = insertedSoFar = 0;
+        //clear map
+        coins.clear();
+        //reset timeBrought and insertedSoFar
+        timeBought = insertedSoFar = 0; 
     }
     
     public int empty(){
