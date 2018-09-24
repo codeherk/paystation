@@ -1,27 +1,20 @@
-/**
- * Testcases for the Pay Station system.
- *
- * This source code is from the book "Flexible, Reliable Software: Using
- * Patterns and Agile Development" published 2010 by CRC Press. Author: Henrik B
- * Christensen Computer Science Department Aarhus University
- *
- * This source code is provided WITHOUT ANY WARRANTY either expressed or
- * implied. You may study, use, modify, and distribute it for non-commercial
- * purposes. For any commercial use, see http://www.baerbak.com/
- */
 package paystation.domain;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PayStationImplTest {
 
     PayStation ps;
+    Map<Integer, Integer> mapForTesting;
 
     @Before
     public void setup() {
         ps = new PayStationImpl();
+        mapForTesting = new HashMap<>();
     }
 
     /**
@@ -138,4 +131,103 @@ public class PayStationImplTest {
         assertEquals("Insert after cancel should work",
                 10, ps.readDisplay());
     }
+
+//************************* Test Cases for Lab Three ****************************************************
+    
+    
+// 1. Call to empty returns the total amount entered.
+    @Test
+    public void testCaseOne() throws IllegalCoinException {
+        ps.addPayment(5);
+        ps.addPayment(25);
+        ps.addPayment(10);
+        assertEquals("Empty needs to return the amount", 40, ps.empty());
+    }
+
+    
+// 2. Canceled entry does not add to the amount returned by empty.
+    @Test
+    public void testCaseTwo() throws IllegalCoinException {
+        ps.addPayment(10);
+        ps.addPayment(5);
+        ps.cancel();
+        assertEquals("Entry that was cancelled does not add to the result", 0, ps.empty());
+
+        ps.addPayment(10);
+        assertEquals("When empty is called, it will work", 10, ps.empty());
+    }
+
+    
+// 3. Call to empty resets the total to zero.
+    @Test
+    public void testCaseThree() throws IllegalCoinException {
+        ps.addPayment(10);
+        ps.addPayment(25);
+        ps.empty();
+        assertEquals("Empty should reset the total to zero", 0, ps.readDisplay());
+    }
+
+    
+// 4. Call to cancel returns a map containing one coin entered.
+    @Test
+    public void testCaseFour() throws IllegalCoinException {
+
+        ps.addPayment(5);
+        mapForTesting.put(5, 1);
+        
+        //assertEquals("Returns the map with only one entered coin", mapForTesting, ps.cancel());
+        assertEquals("Returns the map with only one entered coin", mapForTesting.get(5), ps.cancel().get(5));
+
+    }
+
+    
+// 5. Call to cancel returns a map containing a mixture of coins entered.
+    @Test
+    public void testCaseFive() throws IllegalCoinException {
+        ps.addPayment(25);
+        ps.addPayment(5);
+        ps.addPayment(10);
+        ps.addPayment(25);
+        ps.addPayment(5);
+        ps.addPayment(5);
+              
+        mapForTesting.put(5, 3);
+        mapForTesting.put(10, 1);
+        mapForTesting.put(25, 2);
+        assertEquals("Returns a map with a mixture of coins entered", mapForTesting, ps.cancel());
+    }
+
+    
+// 6. Call to cancel returns a map that does not contain a key for a coin not entered.
+    @Test
+    public void testCaseSix() throws IllegalCoinException {
+        assertFalse("Returns a map that does not contain a key for a coin not entered", ps.cancel().containsKey(25));
+    }
+
+    
+// 7. Call to cancel clears the map.
+    @Test
+    public void testCaseSeven() throws IllegalCoinException {
+        ps.addPayment(5);
+        ps.addPayment(25);
+        ps.cancel();
+        assertTrue("Returns a cleared map", ps.cancel().isEmpty());
+    }
+
+    
+// 8. Call to buy clears the map.
+    @Test
+    public void testCaseEight() throws IllegalCoinException {
+        ps.addPayment(10);
+        ps.addPayment(5);
+        ps.addPayment(25);
+        ps.buy();
+        assertTrue("Return empty map after a call to buy", ps.cancel().isEmpty());
+    }
 }
+    
+
+    
+   
+    
+

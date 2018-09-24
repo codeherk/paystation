@@ -26,7 +26,7 @@ public class PayStationImpl implements PayStation {
     
     private int insertedSoFar; 
     private int timeBought;
-    private Map<Integer,Integer> coins; //map of coins to be returned IF user cancels
+    private Map<Integer,Integer> coins = new HashMap<Integer,Integer>(); //map of coins to be returned IF user cancels
 
     @Override
     public void addPayment(int coinValue)
@@ -39,6 +39,7 @@ public class PayStationImpl implements PayStation {
                 throw new IllegalCoinException("Invalid coin: " + coinValue);
         }
         insertedSoFar += coinValue;
+        addToMap(coinValue);
         timeBought = insertedSoFar / 5 * 2;
     }
 
@@ -57,18 +58,20 @@ public class PayStationImpl implements PayStation {
     @Override
     public Map<Integer, Integer> cancel() {
         //create map object
-        Map<Integer,Integer> coins = new HashMap<Integer,Integer>(); // Map<> is an interface, cannot be Instantiated
+        
+        Map<Integer,Integer> inserted = new HashMap<Integer,Integer>(coins); // Map<> is an interface, cannot be Instantiated
         
         /*while(insertedSoFar > 25){
             insert
         }*/
         reset();
-        return coins;
+        return inserted;
     }
     
     private void reset() {
         timeBought = insertedSoFar = 0;
     }
+    
     public int empty(){
         //returns total of money collected by the paystation since the last call and empties it
         int total = insertedSoFar; //stored money collect to a variable before emptying it
@@ -77,5 +80,16 @@ public class PayStationImpl implements PayStation {
         //reset Map
         coins.clear(); //resets map
         return total;
+    }
+
+    private void addToMap(int coinValue) {
+        
+        //.get() will return the number of coins for that value or null if there is none
+        if (coins.get(coinValue) == null) {
+            coins.put(coinValue,1);
+        } else {
+            coins.put(coinValue, coins.get(coinValue) + 1);
+        }
+        
     }
 }
