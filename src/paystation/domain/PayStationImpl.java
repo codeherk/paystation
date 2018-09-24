@@ -79,7 +79,9 @@ public class PayStationImpl implements PayStation {
     public int empty(){
         //returns total of money collected by the paystation since the last call and empties it
         int total = insertedSoFar; //stored money collect to a variable before emptying it
-        reset();
+        
+        timeBought = insertedSoFar = 0; // Canvas says reset total to 0 but what are they talking about when they say total. There are no variables name total
+        //reset(); //reset should not be used since it clears the map. Canvas says nothing about empty clearing the map.
         return total;
     }
 
