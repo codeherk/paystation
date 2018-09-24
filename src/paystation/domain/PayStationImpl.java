@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * CIS 3296 - LAB 3
+ * Byron Jenkins & Daniel Dubovoy
+ * GITHUB - https://github.com/codeherk/paystation
+ * 
  * Implementation of the pay station.
  *
  * Responsibilities:
@@ -14,14 +18,15 @@ import java.util.Map;
  * 4) Issue receipts; 
  * 5) Handle buy and cancel events.
  *
- * This source code is from the book "Flexible, Reliable Software: Using
+ * This includes source code from the book "Flexible, Reliable Software: Using
  * Patterns and Agile Development" published 2010 by CRC Press. Author: Henrik B
- * Christensen Computer Science Department Aarhus University
- *
- * This source code is provided WITHOUT ANY WARRANTY either expressed or
+ * Christensen Computer Science Department Aarhus University 
+ * 
+ * The included source code is provided WITHOUT ANY WARRANTY either expressed or
  * implied. You may study, use, modify, and distribute it for non-commercial
  * purposes. For any commercial use, see http://www.baerbak.com/
  */
+
 public class PayStationImpl implements PayStation {
     
     private int insertedSoFar; 
@@ -57,16 +62,16 @@ public class PayStationImpl implements PayStation {
 
     @Override
     public Map<Integer, Integer> cancel() {
-        //create map object
-        
+        //create map copy of coins then reset
         Map<Integer,Integer> inserted = new HashMap<Integer,Integer>(coins); // Map<> is an interface, cannot be Instantiated
-        reset();
+        reset(); //reset coins. however, we have a copy of it it inserted.
         return inserted;
     }
     
     private void reset() {
         //clear map
         coins.clear();
+        
         //reset timeBrought and insertedSoFar
         timeBought = insertedSoFar = 0; 
     }
@@ -74,20 +79,16 @@ public class PayStationImpl implements PayStation {
     public int empty(){
         //returns total of money collected by the paystation since the last call and empties it
         int total = insertedSoFar; //stored money collect to a variable before emptying it
-        reset(); 
-        
-        //reset Map
-        coins.clear(); //resets map
+        reset();
         return total;
     }
 
-    private void addToMap(int coinValue) {
-        
+    public void addToMap(int coinValue) {
         //.get() will return the number of coins for that value or null if there is none
         if (coins.get(coinValue) == null) {
             coins.put(coinValue,1);
         } else {
-            coins.put(coinValue, coins.get(coinValue) + 1);
+            coins.put(coinValue, coins.get(coinValue) + 1); //
         }
         
     }

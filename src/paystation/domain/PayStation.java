@@ -1,4 +1,8 @@
 /**
+ * CIS 3296 - LAB 3
+ * Byron Jenkins & Daniel Dubovoy
+ * GITHUB - https://github.com/codeherk/paystation
+ * 
  * The business logic of a Parking Pay Station.
  *
  * Responsibilities:
@@ -9,11 +13,11 @@
  * 4) Issue receipts; 
  * 5) Handle buy and cancel events.
  *
- * This source code is from the book "Flexible, Reliable Software: Using
+ * This includeds source code from the book "Flexible, Reliable Software: Using
  * Patterns and Agile Development" published 2010 by CRC Press. Author: Henrik B
  * Christensen Computer Science Department Aarhus University
  *
- * This source code is provided WITHOUT ANY WARRANTY either expressed or
+ * This included source code is provided WITHOUT ANY WARRANTY either expressed or
  * implied. You may study, use, modify, and distribute it for non-commercial
  * purposes. For any commercial use, see http://www.baerbak.com/
  */
@@ -67,5 +71,10 @@ public interface PayStation {
      */
     public int empty();
     
-    
+     /**
+     * A supporting method for addPayment. Adds coin to map.
+     * @param coinValue is an integer value representing the coin in cent. That
+     * is, a quarter is coinValue=25, etc.
+     */
+    public void addToMap(int coinValue);
 }

@@ -6,6 +6,15 @@ import org.junit.Before;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * CIS 3296 - LAB 3
+ * Byron Jenkins & Daniel Dubovoy
+ * GITHUB - https://github.com/codeherk/paystation 
+ * 
+ * Junit test cases
+ * 
+ **/
+
 public class PayStationImplTest {
 
     PayStation ps;
@@ -16,11 +25,17 @@ public class PayStationImplTest {
         ps = new PayStationImpl();
         mapForTesting = new HashMap<>();
     }
+    
+    /********************************** Example Test Cases **********************************/
+    // Uncomment @Test to test these cases. 
 
+    public PayStationImplTest() {
+    }
+    
     /**
      * Entering 5 cents should make the display report 2 minutes parking time.
      */
-    @Test
+    //@Test
     public void shouldDisplay2MinFor5Cents()
             throws IllegalCoinException {
         ps.addPayment(5);
@@ -31,7 +46,7 @@ public class PayStationImplTest {
     /**
      * Entering 25 cents should make the display report 10 minutes parking time.
      */
-    @Test
+    //@Test
     public void shouldDisplay10MinFor25Cents() throws IllegalCoinException {
         ps.addPayment(25);
         assertEquals("Should display 10 min for 25 cents",
@@ -41,7 +56,7 @@ public class PayStationImplTest {
     /**
      * Verify that illegal coin values are rejected.
      */
-    @Test(expected = IllegalCoinException.class)
+    //@Test(expected = IllegalCoinException.class)
     public void shouldRejectIllegalCoin() throws IllegalCoinException {
         ps.addPayment(17);
     }
@@ -49,7 +64,7 @@ public class PayStationImplTest {
     /**
      * Entering 10 and 25 cents should be valid and return 14 minutes parking
      */
-    @Test
+    //@Test
     public void shouldDisplay14MinFor10And25Cents()
             throws IllegalCoinException {
         ps.addPayment(10);
@@ -61,7 +76,7 @@ public class PayStationImplTest {
     /**
      * Buy should return a valid receipt of the proper amount of parking time
      */
-    @Test
+    //@Test
     public void shouldReturnCorrectReceiptWhenBuy()
             throws IllegalCoinException {
         ps.addPayment(5);
@@ -78,7 +93,7 @@ public class PayStationImplTest {
     /**
      * Buy for 100 cents and verify the receipt
      */
-    @Test
+    //@Test
     public void shouldReturnReceiptWhenBuy100c()
             throws IllegalCoinException {
         ps.addPayment(10);
@@ -97,7 +112,7 @@ public class PayStationImplTest {
     /**
      * Verify that the pay station is cleared after a buy scenario
      */
-    @Test
+    //@Test
     public void shouldClearAfterBuy()
             throws IllegalCoinException {
         ps.addPayment(25);
@@ -120,7 +135,7 @@ public class PayStationImplTest {
     /**
      * Verify that cancel clears the pay station
      */
-    @Test
+    //@Test
     public void shouldClearAfterCancel()
             throws IllegalCoinException {
         ps.addPayment(10);
@@ -132,22 +147,25 @@ public class PayStationImplTest {
                 10, ps.readDisplay());
     }
 
-//************************* Test Cases for Lab Three ****************************************************
-    
-    
-// 1. Call to empty returns the total amount entered.
+/********************************** Test Cases for Lab Three **********************************/
+    /**
+     * Test Case 1 -
+     * Call to empty returns the total amount entered.
+     */    
     @Test
-    public void testCaseOne() throws IllegalCoinException {
+    public void shouldReturnAmountEntered() throws IllegalCoinException {
         ps.addPayment(5);
         ps.addPayment(25);
         ps.addPayment(10);
         assertEquals("Empty needs to return the amount", 40, ps.empty());
     }
-
     
-// 2. Canceled entry does not add to the amount returned by empty.
+    /**
+     * Test Case 2 -
+     * Canceled entry does not add to the amount returned by empty.
+     */
     @Test
-    public void testCaseTwo() throws IllegalCoinException {
+    public void shouldNotReturnCanceledEntry() throws IllegalCoinException {
         ps.addPayment(10);
         ps.addPayment(5);
         ps.cancel();
@@ -157,33 +175,39 @@ public class PayStationImplTest {
         assertEquals("When empty is called, it will work", 10, ps.empty());
     }
 
-    
-// 3. Call to empty resets the total to zero.
+    /**
+     * Test Case 3 -
+     * Call to empty resets the total to zero.
+     */
     @Test
-    public void testCaseThree() throws IllegalCoinException {
+    public void shouldResetToZeroAfterEmptied() throws IllegalCoinException {
         ps.addPayment(10);
         ps.addPayment(25);
         ps.empty();
-        assertEquals("Empty should reset the total to zero", 0, ps.readDisplay());
+        assertEquals("Call to empty should reset the total to zero", 0, ps.readDisplay());
     }
 
-    
-// 4. Call to cancel returns a map containing one coin entered.
+    /**
+     * Test Case 4 -
+     * Call to cancel returns a map containing one coin entered.
+     */
     @Test
-    public void testCaseFour() throws IllegalCoinException {
+    public void shouldReturnOneCoin() throws IllegalCoinException {
 
         ps.addPayment(5);
         mapForTesting.put(5, 1);
         
         //assertEquals("Returns the map with only one entered coin", mapForTesting, ps.cancel());
-        assertEquals("Returns the map with only one entered coin", mapForTesting.get(5), ps.cancel().get(5));
+        assertEquals("Returns the map containing one entered coin entered", mapForTesting.get(5), ps.cancel().get(5));
 
     }
 
-    
-// 5. Call to cancel returns a map containing a mixture of coins entered.
+    /**
+     * Test Case 5 -
+     * Call to cancel returns a map containing a mixture of coins entered.
+     */
     @Test
-    public void testCaseFive() throws IllegalCoinException {
+    public void shouldReturnMultipleCoins() throws IllegalCoinException {
         ps.addPayment(25);
         ps.addPayment(5);
         ps.addPayment(10);
@@ -196,28 +220,34 @@ public class PayStationImplTest {
         mapForTesting.put(25, 2);
         assertEquals("Returns a map with a mixture of coins entered", mapForTesting, ps.cancel());
     }
-
     
-// 6. Call to cancel returns a map that does not contain a key for a coin not entered.
+    /**
+     * Test Case 6 -
+     * Call to cancel returns a map that does not contain a key for a coin not entered.
+     */
     @Test
-    public void testCaseSix() throws IllegalCoinException {
+    public void shouldNotContainKeyForNoEntry() throws IllegalCoinException {
         assertFalse("Returns a map that does not contain a key for a coin not entered", ps.cancel().containsKey(25));
     }
-
     
-// 7. Call to cancel clears the map.
+    /**
+     * Test Case 7 -
+     * Call to cancel clears the map.
+     */
     @Test
-    public void testCaseSeven() throws IllegalCoinException {
+    public void shouldClearMapAfterCancel() throws IllegalCoinException {
         ps.addPayment(5);
         ps.addPayment(25);
         ps.cancel();
-        assertTrue("Returns a cleared map", ps.cancel().isEmpty());
+        assertTrue("Returns a cleared map after call to cancel", ps.cancel().isEmpty());
     }
 
-    
-// 8. Call to buy clears the map.
+    /**
+     * Test Case 8 -
+     * Call to buy clears the map.
+     */
     @Test
-    public void testCaseEight() throws IllegalCoinException {
+    public void shouldClearMapAfterBuy() throws IllegalCoinException {
         ps.addPayment(10);
         ps.addPayment(5);
         ps.addPayment(25);
