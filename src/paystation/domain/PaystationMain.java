@@ -22,6 +22,7 @@ public class PaystationMain {
     static Scanner keyboard = new Scanner(System.in);
     static String input;
     static PayStation ps = new PayStationImpl();
+    static Receipt r;
     
     public static void main(String[] args) {
         
@@ -37,10 +38,10 @@ public class PaystationMain {
                     acceptCoins();
                     break;
                 case "2":
-                    System.out.println(ps.readDisplay() + " Minutes purchased");
+                    displayTime();
                     break;
                 case "3":
-                    ps.buy();
+                    buy();
                     break;
                 case "4":
                     cancel();
@@ -68,12 +69,8 @@ public class PaystationMain {
                 break;
             try {
                 coin = Integer.parseInt(input);
-                //policy
                 ps.addPayment(coin);
-//                if (coin == 5 || coin == 10 || coin == 25) {
-//                    System.out.println("accepted");
-//                }else
-//                    System.out.println("Invalid entry");
+                System.out.println(coin + " accepted");
             } catch (NumberFormatException e) {
                 System.out.println("Error: Invalid entry.");
             } catch (IllegalCoinException ex) {
@@ -122,6 +119,16 @@ public class PaystationMain {
             return 0;
         else // if it is not null. the value is a number, therefore it is safe to cast
             return (int)num;
+    }
+
+    private static void buy() {
+        r = ps.buy();
+        System.out.println("______________________________\nPurchase complete.");
+        System.out.println("Time purchased: " + r.value() + " Minutes.");
+    }
+
+    private static void displayTime() {
+        System.out.println("______________________________\n\t" + ps.readDisplay() + " Minutes\n______________________________");
     }
     
 }
