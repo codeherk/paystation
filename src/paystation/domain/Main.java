@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author Byron
  */
-public class PaystationMain {
+public class Main {
 
     /**
      * @param args the command line arguments
@@ -24,15 +24,17 @@ public class PaystationMain {
     static PayStation ps = new PayStationImpl();
     static Receipt r;
     
+    //
+    
     public static void main(String[] args) {
         
         //accept user input   
         String option;
         printMenu();
-        while (keyboard.hasNextLine()) {
-            input = keyboard.nextLine();
+        while ((input = keyboard.nextLine().trim().toLowerCase()).compareTo("q") != 0) {
+            //input = keyboard.nextLine();
             //valldate input
-            option = input.toLowerCase().trim();
+            option = input;
             switch (option) {
                 case "1":
                     acceptCoins();
@@ -57,9 +59,20 @@ public class PaystationMain {
         }   
     }
 
+    private static void printMenu() {
+        System.out.println("______________________________\n\tMain Menu\n______________________________");
+        System.out.println("1. Deposit Coins");
+        System.out.println("2. Display");
+        System.out.println("3. Buy Ticket");
+        System.out.println("4. Cancel");
+        System.out.println("5. Change Rate\n");
+        
+        System.out.println("Please enter a number (or enter q to quit Paystation): ");
+    }
+    
     private static void acceptCoins() {
         int coin;
-        System.out.println("Please insert 5, 10, 25 coins (enter q to quit):");
+        System.out.println("Please insert 5, 10, 25 coins (enter q to return to main menu):");
         while(keyboard.hasNextLine()){
             input = keyboard.nextLine(); //get input
             input = input.trim();
@@ -76,19 +89,18 @@ public class PaystationMain {
             } catch (IllegalCoinException ex) {
                 System.out.println("Error: Please enter only 5, 10, or 25.");
             }
-            System.out.println("Please insert 5, 10, 25 coins (enter q to quit):");
+            System.out.println("Please insert 5, 10, 25 coins (enter q to return to main menu):");
         }
     }
 
-    private static void printMenu() {
-        System.out.println("______________________________\n\tMain Menu\n______________________________");
-        System.out.println("1. Deposit Coins");
-        System.out.println("2. Display");
-        System.out.println("3. Buy Ticket");
-        System.out.println("4. Cancel");
-        System.out.println("5. Change Rate\n");
-        
-        System.out.println("Please enter a number: ");
+    private static void displayTime() {
+        System.out.println("______________________________\n\t" + ps.readDisplay() + " Minutes\n______________________________");
+    }
+    
+    private static void buy() {
+        r = ps.buy();
+        System.out.println("______________________________\nPurchase complete.");
+        System.out.println("Time purchased: " + r.value() + " Minutes.");
     }
 
     private static void cancel() {
@@ -120,15 +132,4 @@ public class PaystationMain {
         else // if it is not null. the value is a number, therefore it is safe to cast
             return (int)num;
     }
-
-    private static void buy() {
-        r = ps.buy();
-        System.out.println("______________________________\nPurchase complete.");
-        System.out.println("Time purchased: " + r.value() + " Minutes.");
-    }
-
-    private static void displayTime() {
-        System.out.println("______________________________\n\t" + ps.readDisplay() + " Minutes\n______________________________");
-    }
-    
 }
