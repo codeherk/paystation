@@ -1,18 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * CIS 3296 - LAB 4
+ * Byron Jenkins
+ * GITHUB - https://github.com/codeherk/paystation
+ * 
+ * Implementation of the pay station main class.
+ *
+ * Responsibilities:
+ *
+ * 1) Accept payment; 
+ * 2) Display time brought
+ * 3) Complete purchase and issue receipts
+ * 4) Returns coins entered if purchase is canceled
+ * 5) Allow rate strategy to be changed
  */
+
 package paystation.domain;
 
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Byron
+ * @author Byron Jenkins
  */
 public class Main {
 
@@ -23,8 +32,6 @@ public class Main {
     static String input;
     static PayStation ps = new PayStationImpl();
     static Receipt r;
-    
-    //
     
     public static void main(String[] args) {
         
