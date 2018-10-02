@@ -1,18 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * CIS 3296 - LAB 4
+ * Byron Jenkins
+ * GITHUB - https://github.com/codeherk/paystation
+ * 
+ * Implementation of the pay station main class.
+ *
+ * Responsibilities:
+ *
+ * 1) Accept payment; 
+ * 2) Display time brought
+ * 3) Complete purchase and issue receipts
+ * 4) Returns coins entered if purchase is canceled
+ * 5) Allow rate strategy to be changed
  */
+
 package paystation.domain;
 
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Byron
+ * @author Byron Jenkins
  */
 public class Main {
 
@@ -23,8 +32,6 @@ public class Main {
     static String input;
     static PayStation ps = new PayStationImpl();
     static Receipt r;
-    
-    //
     
     public static void main(String[] args) {
         
@@ -50,6 +57,7 @@ public class Main {
                     break;
                 case "5":
                     //change rate
+                    switchStrategy();
                     break;
                 default:
                     System.out.println("Invalid entry");
@@ -67,7 +75,7 @@ public class Main {
         System.out.println("4. Cancel");
         System.out.println("5. Change Rate\n");
         
-        System.out.println("Please enter a number (or enter q to quit Paystation): ");
+        System.out.println("Please select an option (or enter q to quit Paystation): ");
     }
     
     private static void acceptCoins() {
@@ -85,11 +93,11 @@ public class Main {
                 ps.addPayment(coin);
                 System.out.println(coin + " accepted");
             } catch (NumberFormatException e) {
-                System.out.println("Error: Invalid entry.");
+                System.out.println("Error: Invalid entry. Enter 5, 10, or 25 (enter q to return to main menu).");
             } catch (IllegalCoinException ex) {
-                System.out.println("Error: Please enter only 5, 10, or 25.");
+                System.out.println("Error: Please enter only 5, 10, or 25 (enter q to return to main menu).");
             }
-            System.out.println("Please insert 5, 10, 25 coins (enter q to return to main menu):");
+            //System.out.println("Please insert 5, 10, 25 coins (enter q to return to main menu):");
         }
     }
 
@@ -131,5 +139,29 @@ public class Main {
             return 0;
         else // if it is not null. the value is a number, therefore it is safe to cast
             return (int)num;
+    }
+
+    private static void switchStrategy() {
+        int choice;
+        System.out.println("Rate Strategies:\n\t(1) Alphatown\n\t(2) Betatown\n\t(3) Gammatown\n(Enter 1, 2, or 3 to choose or enter q to return to main menu):");
+        while(keyboard.hasNextLine()){
+            input = keyboard.nextLine(); //get input
+            input = input.trim();
+            
+            //quit if user enters q
+            if(input.compareTo("q") == 0)
+                break;
+            try {
+                choice = Integer.parseInt(input);
+                ps.setRateStrategy(choice);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Invalid entry.");
+            } catch (IllegalChoiceException e){
+                System.out.println("Error:" + e);
+            }
+            
+            System.out.println("Rate Strategies:\n\t(1) Alphatown\n\t(2) Betatown\n\t(3) Gammatown\n(Enter 1, 2, or 3 to choose or enter q to return to main menu):");
+        }
     }
 }

@@ -31,6 +31,16 @@ public class PayStationImpl implements PayStation {
     
     private int insertedSoFar; 
     private int timeBought;
+    // The rate calculation strategy used
+    RateStrategy rateStrategy;
+
+    
+    public PayStationImpl(){
+        rateStrategy = new LinearRateStrategy();
+    }
+    public PayStationImpl(RateStrategy rs){
+        rateStrategy = rs;
+    }
     private Map<Integer,Integer> coins = new HashMap<Integer,Integer>(); //map of coins to be returned IF user cancels
 
     @Override
@@ -45,7 +55,7 @@ public class PayStationImpl implements PayStation {
         }
         insertedSoFar += coinValue;
         addToMap(coinValue);
-        timeBought = insertedSoFar / 5 * 2;
+        timeBought = rateStrategy.calculateTime(insertedSoFar); //insertedSoFar / 5 * 2;
     }
 
     @Override
@@ -93,5 +103,27 @@ public class PayStationImpl implements PayStation {
             coins.put(coinValue, coins.get(coinValue) + 1); //
         }
         
+    }
+    
+    public void setRateStrategy(int choice) throws IllegalChoiceException{
+        switch (choice) {
+            case 1: 
+                rateStrategy = new LinearRateStrategy();
+                System.out.println("Alphatown rate in effect");
+                break;
+            case 2: 
+                rateStrategy = new ProgressiveRateStrategy();
+                System.out.println("Betatown rate in effect");
+                break;
+            case 3: 
+                rateStrategy = new AlternatingRateStrategy();
+                System.out.println("Gammatown rate in effect");
+                break;
+            default:
+                throw new IllegalChoiceException("Invalid rate strategy selection: " + choice);
+        }
+        
+        //recalculate time since rate has changed;
+        timeBought = rateStrategy.calculateTime(insertedSoFar);
     }
 }

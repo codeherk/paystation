@@ -77,4 +77,6 @@ public interface PayStation {
      * is, a quarter is coinValue=25, etc.
      */
     public void addToMap(int coinValue);
+
+    public void setRateStrategy(int choice) throws IllegalChoiceException;
 }
