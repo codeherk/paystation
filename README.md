@@ -12,7 +12,7 @@ Byron Jenkins & Daniel Dubovoy
 
 ## Lab 4 
 ### Group Members
-Byron Jenkins
+Byron Jenkins, Cynthia Wambua, Sean McNamara, Terrell Nowlin
 
 ### Responsibilities
 Now that we have the Java class source code to implement the PayStation application. Each class has been tested using JUnit testing tool. Now it is about time to put all the pieces together to complete a final product. In this lab assignment, the goal is to develop a main program to show demos to the clients how the product works.
