@@ -35,3 +35,7 @@ The included source code is provided WITHOUT ANY WARRANTY either expressed or
 implied. You may study, use, modify, and distribute it for non-commercial
 purposes. For any commercial use, see http://www.baerbak.com/
 
+### Diagram
+Using [StarUML](http://staruml.io/), I designed an UML Diagram that shows the relationships between classes and interfaces of this project.
+![PayStation UML Diagram](/PayStationUMLDiagram.png?raw=true "PayStation UML Diagram")
+
